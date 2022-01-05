@@ -5,39 +5,27 @@
 // [1,4,3,2] => "1-4"
 // [1,4] => "1,4"
 
-const task3 = (array) => {
-    let totalString = '';
-    const temp = [];
-
-    for (let i = 0; i < array.length; i++) {
-        for(let j = 0; j < array.length - 1; j++) {
-            if(array[j] > (array[j + 1])) {
-                const temp = array[j + 1];
-                array[j + 1] = array[j]
-                array[j] = temp;
-            }
+const task3 = (array) => array
+    // Сортируем массив по возрастанию
+    .sort((a, b) => a - b)
+    // Редьюсим
+    .reduce((prevValue, currentValue, i, array) => {
+        if (i > 0 && currentValue - array[i - 1] === 1) {
+            // Если результат вычитания предыдущего значения массива из текущего значения равен 1
+            // то добавляем в массив
+            let lastValue = prevValue.pop();
+            lastValue.push(currentValue);
+            prevValue.push(lastValue);
+        } else {
+            prevValue.push([currentValue]);
         }
-    }
-
-    console.log('array: ', array);
-    console.log('array[array.length - 1]: ', array[array.length - 1]);
-
-    for (let i = 0; i < array[array.length - 1]; i++) {
-
-        const arrayMaxLength = array[array.length - 1];
-        console.log('i: ', i);
-
-        if(i === array[i]) {
-            console.log('array[i]: ', array[i]);
-            temp.push(i)
-        }
-
-        console.log('temp: ', temp);
-    }
-
-
-
-    return array;
-}
+        return prevValue;
+    }, [])
+    // Пересобираем массив с массивами
+    // (если длина массива больше 1,
+    // то берём первое и последнее значение и вставляем интерполяцией строк в массив
+    .map(value => value.length > 1 ? `${value[0]}-${value[value.length - 1]}` : value)
+    // Джойним все полученные значения массива в строку
+    .join(', ');
 
 export default task3;
