@@ -6,40 +6,34 @@
 // mergeIntervals([[4, 8], [3, 5], [1, 2], [7, 12]]) // [[3, 12], [1, 2]] => [[3, 12], [1, 2]]
 // mergeIntervals([[3, 4], [1, 2], [4, 5], [2, 3]]) // [[1, 5]]
 // [1, 2], [3, 5], [4, 8], [7, 12]
-const Task9 = (array) => {
+const task9 = (array) => {
+    // Если входной массив массивов с длиной меньше 2 то возвращаем изначальный массив
+    if (array.length < 2) return array;
+
+    // Сначала сортируем массив по возрастанию первых элементов каждого подмассива
     array.sort((a, b) => a[0] - b[0]);
 
+    // Изначальные значения для нового массива и изменяемой переменной с предыдущим значением
     const newArray = [];
+    let prev = array[0];
 
-    // for (let i = 0; i < array.length; i++){
-    //     if(array[i][1] - 1 === array[i][0]) {
-    //         newArray.push(array[i]);
-    //     }
-    //     for(let j = 0; j < array.length; j++){
-    //         console.log('array[i]: ', array[i]);
-    //     }
-    // }
-
-    const newA = array.reduceRight((initialArr, nextItem, i, array) => {
-        console.log('i: ', i);
-        console.log('nextItem: ', nextItem);
-        console.log('(nextItem[1] - 1) === nextItem[0]: ', (nextItem[1] - 1) === nextItem[0]);
-        if (initialArr && initialArr.length && (nextItem[1] - 1) === nextItem[0]) {
-            // return [...initialArr, nextItem];
-
-            return [...initialArr, nextItem];
-        } else if (initialArr && initialArr.length && nextItem[1] > nextItem[0]) {
-            return [...initialArr, nextItem[0]]
+    // начинаем цикл со второго элемента массива, т.к. 1-ый у нас находится изначально
+    for (let i = 1; i < array.length; i++) {
+        // Если второй элемент предыдущего значения >= второму элементу текущего (итерируемого) значения
+        // то добавляем в изменяемую переменную хранящую предыдущее значение
+        if (prev[1] >= array[i][0]) {
+            prev = [prev[0], Math.max(prev[1], array[i][1])];
+        } else {
+        // Если вышестоящее условие не проходит то просто пушим в новый массив значение изменяемой переменной 
+        // с предыдущим значением и назначаем этой переменной значение текущего итерируемого элемента
+            newArray.push(prev);
+            prev = array[i];
         }
-        else { return [...initialArr, nextItem] }
+    }
 
-        // if (initialArr[i][1] < nextItem[1]) {
-        //     return nextItem;
-        // }
-    }, []);
+    newArray.push(prev);
 
-    console.log('newA: ', newA);
-    // console.log(array);
+    return newArray;
 }
 
-export default Task9;
+export default task9;
