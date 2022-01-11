@@ -16,18 +16,18 @@
  * fuzzysearch('lw', 'cartwheel') // false
  */
 
-const task11 = (searchStr, str) => {
+const task11 = (searchStr, string) => {
+    if (string.toLowerCase().includes(searchStr.toLowerCase())) return true;
 
-    // return str.reduceRight(() => {}, [])
-    if (str.toLowerCase().includes(searchStr.toLowerCase())) return true;
+    let counter = -1;
 
-    for (let i = 0; i < str.length; i++) {
+    for (let i = 0; i < string.length; i++) {
+        counter = string.indexOf(searchStr.charAt(i), counter + 1);
 
+        if(counter === -1) return false;
     }
-    
-    // Надо проверять символы и порядок каждого символа с порядком текущего символа проверяемой строки
 
-    return str.length;
+    return true;
 }
 
 export default task11;
