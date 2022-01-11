@@ -8,8 +8,6 @@ fill([1, 2, 3, 4, 5], '*', -2, 2) // ['*', '*, '*', 4, 5] // если отриц
 function task13(arr, val, start, end) {
     const trueStart = start > 0 ? start : 0;
 
-    console.log('end', end);
-
     for (let i = trueStart; i < arr.length; i++){
         if(!end || i <= end) {
             arr[i] = val;
