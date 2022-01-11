@@ -17,8 +17,6 @@
  */
 
 const task11 = (searchStr, string) => {
-    if (string.toLowerCase().includes(searchStr.toLowerCase())) return true;
-
     let counter = -1;
 
     for (let i = 0; i < string.length; i++) {
